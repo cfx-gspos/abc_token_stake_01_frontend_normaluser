@@ -1,0 +1,38 @@
+ 
+{
+    "hello": "Hello",
+    "welcome": "Welcome to my app",
+    "Stake is a common concept in the blockchain and cryptocurrency space. It refers to locking a certain amount of cryptocurrency assets in a specific smart contract in order to gain certain rights or rewards.":"Stake is a common concept in the blockchain and cryptocurrency space. It refers to locking a certain amount of cryptocurrency assets in a specific smart contract in order to gain certain rights or rewards.",
+    "Select language":"Select language"
+    ,"Pool":"Pool"
+    ,"Stake":"Stake"
+    ,"Staking":"Staking"
+    ,"Connect Wallet":"Connect Wallet"
+    ,"Connect a wallet":"Connect a wallet"
+    ,"Switch wallet":"Switch wallet"
+    ,"Disconnect":"Disconnect"
+    ,"Network":"Network"
+    ,"Copy address":"Copy address"
+    ,"View on Explorer":"View on Explorer"
+    ,"Details":"Details"
+    ,"Balance":"Balance"
+    ,"Amount":"Amount"
+    ,"Duration":"Duration"
+    ,"Transaction overview":"Transaction overview"
+    ,"month":"month"
+    ,"months":"months"
+    ,"UnStake":"UnStake"
+    ,"Earnable":"Earnable"
+    ,"Earn":"Earn"
+    ,"Reward":"Reward"
+    ,"Total staked":"Total staked"
+    ,"End Time":"End Time"
+    ,"My Staked":"My Staked"
+    ,"Claimable":"Claimable"
+    ,"Network error":"Network error"
+    ,"Cancel":"Cancel"
+    ,"Please switch to":"Please switch to"
+    ,"Switch Network":"Switch Network"
+    ,"Approve":"Approve"
+  }
+  
