@@ -55,9 +55,9 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({
 }) => {
   const { currentTime } = useDataContext()
 
-  console.log({
-    currentTime
-  })
+  // console.log({
+  //   currentTime
+  // })
 
   // const { breakpoints } = useTheme();
   // const xsm = useMediaQuery(breakpoints.up('xsm'));

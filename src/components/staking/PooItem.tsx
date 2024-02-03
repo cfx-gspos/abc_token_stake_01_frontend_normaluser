@@ -460,7 +460,7 @@ export const PooItem = ({
                             //    variant="subheader2"
                             color={'text.secondary'}
                         >
-                            {'Claimable'} CFX
+                            {t('Claimable')} CFX
                         </Typography>
                         <Box sx={{
                             mt: 1

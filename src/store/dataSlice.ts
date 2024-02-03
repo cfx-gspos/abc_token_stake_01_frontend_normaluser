@@ -11,7 +11,8 @@ import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { CHAINS, ConnectChainID } from "../libs/chains";
 
 export const abcAddress = '0xDcebdA2fE31EA70871a62FD584B6D692ABde9727'
-export const poolAddress = '0x68842DEC9C35c320dDfF823a97f9Be26dFEf1542'
+export const poolAddress = '0xa792111cb7b143CdF2EbCDF6b9716b357869a2F1'
+
 export const poolTimes = [
     { name: '1 month', value: 1, pool_id: 1 },
     { name: '3 months', value: 3, pool_id: 2 },
@@ -143,21 +144,21 @@ export const useDataStore = create<DataSlice>((set, get) => ({
                     // const APR_annualized = Math.pow(1 + Number(APR_per_second), seconds_in_a_year) - 1;
 
 
-                    console.log({
-                        name_abc: `${index}--pool----------------------------------`,
-                        _poolData: secondsToDaysAndMonths(_poolData instanceof BigNumber ? _poolData.toNumber() : 0),
-                        _poolData2: _poolData instanceof BigNumber ? _poolData.toNumber() : 0,
-                        _startTime: formatTimestampToDateTime(_startTime instanceof BigNumber ? _startTime.toNumber() : 0),
-                        _startTime2: _startTime instanceof BigNumber ? _startTime.toNumber() : 0,
-                        _totalSupply: _totalSupply instanceof BigNumber ? _totalSupply.toString() : '0',
-                        _lockTime: formatTimestampToDateTime(_lockTime instanceof BigNumber ? _lockTime.toNumber() : 0),
-                        _lockTime2: _lockTime instanceof BigNumber ? _lockTime.toNumber() : 0,
-                        // _rewardPerTokenStored: _rewardPerTokenStored instanceof BigNumber ? _rewardPerTokenStored.toString() : '0',
-                        _curPoolRewardRate1: _curPoolRewardRate instanceof BigNumber ? ethers.utils.formatEther(_curPoolRewardRate) : '0',
-                        _curPoolRewardRate: APR_annualized,
-                        _poolRewardCfx: _poolRewardCfx instanceof BigNumber ? _poolRewardCfx.toString() : '0',
-                        _hasMint: _hasMint instanceof BigNumber ? _hasMint.toString() : '0',
-                    })
+                    // console.log({
+                    //     name_abc: `${index}--pool----------------------------------`,
+                    //     _poolData: secondsToDaysAndMonths(_poolData instanceof BigNumber ? _poolData.toNumber() : 0),
+                    //     _poolData2: _poolData instanceof BigNumber ? _poolData.toNumber() : 0,
+                    //     _startTime: formatTimestampToDateTime(_startTime instanceof BigNumber ? _startTime.toNumber() : 0),
+                    //     _startTime2: _startTime instanceof BigNumber ? _startTime.toNumber() : 0,
+                    //     _totalSupply: _totalSupply instanceof BigNumber ? _totalSupply.toString() : '0',
+                    //     _lockTime: formatTimestampToDateTime(_lockTime instanceof BigNumber ? _lockTime.toNumber() : 0),
+                    //     _lockTime2: _lockTime instanceof BigNumber ? _lockTime.toNumber() : 0,
+                    //     // _rewardPerTokenStored: _rewardPerTokenStored instanceof BigNumber ? _rewardPerTokenStored.toString() : '0',
+                    //     _curPoolRewardRate1: _curPoolRewardRate instanceof BigNumber ? ethers.utils.formatEther(_curPoolRewardRate) : '0',
+                    //     _curPoolRewardRate: APR_annualized,
+                    //     _poolRewardCfx: _poolRewardCfx instanceof BigNumber ? _poolRewardCfx.toString() : '0',
+                    //     _hasMint: _hasMint instanceof BigNumber ? _hasMint.toString() : '0',
+                    // })
 
                     const currentDate = new Date();
                     const currentTimestampInSeconds = Math.floor(currentDate.getTime() / 1000);
