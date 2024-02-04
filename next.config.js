@@ -6,7 +6,7 @@ const nextConfig = {
   reactStrictMode: true,
   output: 'export',
   // Optional: Change the output directory `out` -> `dist`
-  distDir: 'dist',
+  distDir: 'dist_dev',
   env: {
     infuraKey: process.env.INFURA_KEY,
     alchemyKey: process.env.ALCHEMY_KEY,
