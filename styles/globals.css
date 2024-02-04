@@ -201,10 +201,11 @@ a {
 
 
 @media (max-width: 1024px) {
+
   /* body {
     background: linear-gradient(145deg, #c4defc 30%, #fdfeff);
   } */
-  main.abc-main{
+  main.abc-main {
     background: linear-gradient(145deg, #c4defc 30%, #fdfeff);
   }
 
@@ -313,4 +314,9 @@ a {
     grid-gap: 18px;
     padding: 0px 20px;
   }
+}
+
+
+@media (min-width: 640px) {
+ 
 }

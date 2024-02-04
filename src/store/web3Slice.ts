@@ -208,12 +208,12 @@ export const useWeb3Store = create<Web3Slice>((set, get) => ({
                 //     ].includes(connector)
                 //   ) {
                 //     await connector.activate(chainId)
-                //   } else {
+                //   } else { 
                 const info = getNetworkConfig(chainId);
                 const addChainParameter = {
                     chainId,
                     chainName: info.name,
-                    rpcUrls: info.publicJsonRPCUrl[0],
+                    rpcUrls: info.publicJsonRPCUrl,
                     nativeCurrency: {
                         symbol: info.baseAssetSymbol,
                         decimals: info.baseAssetDecimals,

@@ -54,29 +54,29 @@ export const useDataStore = create<DataSlice>((set, get) => ({
     initData: async (account, provider) => {
 
         //================================================================
-        //get abc price
-        try {
-            abc_Price().then((rs) => {
-                set({ abc_Price: rs })
-            }).catch((error: any) => {
+        // //get abc price
+        // try {
+        //     abc_Price().then((rs) => {
+        //         set({ abc_Price: rs })
+        //     }).catch((error: any) => {
 
-            })
-            // setAbcPrice(abcPrice)
+        //     })
+        //     // setAbcPrice(abcPrice)
 
-        } catch (error) {
-            console.debug(`failed to fetch:`, error)
-        }
+        // } catch (error) {
+        //     console.debug(`failed to fetch:`, error)
+        // }
 
-        //get cfx price
-        try {
-            CoingeckoPrice('conflux-token').then((rs) => {
-                set({ cfx_Price: rs })
-            }).catch((error: any) => {
-                console.log(`failed to coingecko:`, error)
-            })
-        } catch (error) {
-            console.debug(`failed to coingecko:`, error)
-        }
+        // //get cfx price
+        // try {
+        //     CoingeckoPrice('conflux-token').then((rs) => {
+        //         set({ cfx_Price: rs })
+        //     }).catch((error: any) => {
+        //         console.log(`failed to coingecko:`, error)
+        //     })
+        // } catch (error) {
+        //     console.debug(`failed to coingecko:`, error)
+        // }
 
         const seconds_in_a_year = 365.25 * 24 * 60 * 60;
 

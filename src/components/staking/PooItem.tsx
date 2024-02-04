@@ -48,8 +48,8 @@ export const PooItem = ({
         setChecked((prev) => !prev);
     };
 
-    const { t} = useTranslation();
-    
+    const { t } = useTranslation();
+
     return <div className="abc-pool-item">
         <ListItem
             className="item-row"
@@ -87,7 +87,7 @@ export const PooItem = ({
                     </Box>
                     <Box sx={{
                         display: { xs: 'flex', xsm: 'block' },
-                        width: { xs: '100%', xsm: 'unset' },
+                        width: { xs: '100%' },
                         justifyContent: 'space-between',
                         alignItems: 'center',
                     }}>
@@ -111,7 +111,7 @@ export const PooItem = ({
                 <Box
                     sx={{
                         display: { xs: 'flex', xsm: 'block' },
-                        width: { xs: '100%', xsm: 'unset' },
+                        width: { xs: '100%'},
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         mb: { xs: 3, xsm: 0 },
@@ -124,22 +124,27 @@ export const PooItem = ({
                             mb: 2
                         }}
                     >
-                        CFX {t('Earnable')}
+                        {t('Earnable')}
                     </Typography>
                     <Box>
-                        <FormattedNumber
+                        {/* <FormattedNumber
                             value={pool.totalRewardsCfx}
                             // symbol={'CFX'}
                             variant="subheader2"
+                        /> */}
+                        <FormattedNumber
+                            value={pool.totalRewardsCfx}
+                            symbol={'CFX'}
+                            variant="main16"
                         />
                     </Box>
-                    <Box>
+                    {/* <Box>
                         <FormattedNumber
                             value={pool.totalRewardsCfxUSD}
                             symbol={'usd'}
                             variant="subheader2"
                         />
-                    </Box>
+                    </Box> */}
                 </Box>
             </div>
 
@@ -149,7 +154,7 @@ export const PooItem = ({
                 <Box
                     sx={{
                         display: { xs: 'flex', xsm: 'block' },
-                        width: { xs: '100%', xsm: 'unset' },
+                        width: { xs: '100%'},
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         mb: { xs: 3, xsm: 0 },
@@ -187,7 +192,7 @@ export const PooItem = ({
                 <Box
                     sx={{
                         display: { xs: 'flex', xsm: 'block' },
-                        width: { xs: '100%', xsm: 'unset' },
+                        width: { xs: '100%' },
                         justifyContent: 'space-between',
                         alignItems: 'start',
                         mb: { xs: 3, xsm: 0 },
@@ -229,7 +234,7 @@ export const PooItem = ({
                             mb: 2
                         }}
                     >
-                         {t('End Time')}
+                        {t('End Time')}
                     </Typography>
                     <Typography variant={'subheader2'}>
                         {
@@ -433,14 +438,14 @@ export const PooItem = ({
                         </Box>
                         <Button
                             // variant="gradient"
-                            variant={Number(pool.myStaked) > 0 ? "gradient" : "contained"}
+                            variant={Number(pool.myStaked) > 0 && pool.isEnd == true ? "gradient" : "contained"}
                             sx={{
                                 flex: '1',
                                 borderRadius: '40px',
                                 minWidth: '80%'
                             }}
                             onClick={() => { openUnStake(pool) }}
-                            disabled={Number(pool.myStaked) > 0 ? false : true}
+                            disabled={Number(pool.myStaked) > 0 && pool.isEnd == true ? false : true}
                         >
                             {t('UnStake')}
                         </Button>
@@ -488,7 +493,7 @@ export const PooItem = ({
 
                     </Box>
 
- 
+
                 </div>
             </div>
 

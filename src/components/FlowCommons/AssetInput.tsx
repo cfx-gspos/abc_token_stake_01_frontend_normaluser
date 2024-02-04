@@ -280,19 +280,20 @@ interface CustomProps {
           </Box>
   
           <Box sx={{ display: 'flex', alignItems: 'center', height: '16px' }}>
-            {loading ? (
+            {/* {loading ? (
               <Box sx={{ flex: 1 }} />
             ) : (
-              <FormattedNumber
-                value={isNaN(Number(usdValue)) ? 0 : Number(usdValue)}
-                compact
-                symbol="USD"
-                variant="secondary12"
-                color="text.muted"
-                symbolsColor="text.muted"
-                flexGrow={1}
-              />
-            )}
+              // <FormattedNumber
+              //   value={isNaN(Number(usdValue)) ? 0 : Number(usdValue)}
+              //   compact
+              //   symbol="USD"
+              //   variant="secondary12"
+              //   color="text.muted"
+              //   symbolsColor="text.muted"
+              //   flexGrow={1}
+              // /> 
+            )} */}
+               <Box sx={{ flex: 1 }} />
   
             {asset.balance && onChange && (
               <>
