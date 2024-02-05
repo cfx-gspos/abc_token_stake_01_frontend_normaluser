@@ -69,7 +69,7 @@ export const UnStakeModal = () => {
                 toastInfo(true, 'UnStaked Successful')
                 close()
 
-                initData(account, ethProvider)
+                initData(account)
 
             } catch (error) {
                 toastInfo(false, 'Cancel UnStaked')
@@ -88,7 +88,7 @@ export const UnStakeModal = () => {
                         toastInfo(true, 'UnStaked Successful')
                         close()
 
-                        initData(account, ethProvider)
+                        initData(account)
                     } else {
                         toastInfo(false, 'UnStaked Failure')
                     }

@@ -26,6 +26,7 @@ export interface PoolModal {
     name: string;
     months: number;
     apr: string;
+    startTime:string;
     endTime: string;
     totalStaked: string;
     totalStakedUSD: string;
@@ -44,14 +45,14 @@ export interface DataSlice {
     abc_Price?: string;
     cfx_Price?: string;
     pools?: PoolModal[];
-    initData: (account?: string, provider?: Web3Provider) => void;
+    initData: (account?: string) => void;
     getPoolModal?: PoolModal;
     setPoolModal: (pool?: PoolModal) => void;
 }
 
 export const useDataStore = create<DataSlice>((set, get) => ({
 
-    initData: async (account, provider) => {
+    initData: async (account) => {
 
         //================================================================
         // //get abc price
@@ -85,7 +86,14 @@ export const useDataStore = create<DataSlice>((set, get) => ({
             // if (!provider) {
             //     provider = (new JsonRpcProvider(CHAINS[ConnectChainID].urls[0])) as Web3Provider
             // }
-            provider = (new JsonRpcProvider(CHAINS[ConnectChainID].urls[0])) as Web3Provider
+            const provider = (new JsonRpcProvider(CHAINS[ConnectChainID].urls[0])) as Web3Provider
+
+            // console.log({
+            //     name: 'dddddd------------------',
+            //     account,
+            //     provider,
+            //     rpc: CHAINS[ConnectChainID].urls[0]
+            // })
 
             if (provider) {
                 const erc20Contract = new Contract(abcAddress, ERC20ABI, provider) //abc
@@ -175,9 +183,10 @@ export const useDataStore = create<DataSlice>((set, get) => ({
 
                     let _pool: PoolModal = {
                         pool_id: index,
-                        name: poolTimes[index-1].name ,//r_month.months > 1 ? `${r_month.months} months` : `1 month`,
-                        months: poolTimes[index-1].value , //r_month.months == 0 ? 1 : r_month.months,
+                        name: poolTimes[index - 1].name,//r_month.months > 1 ? `${r_month.months} months` : `1 month`,
+                        months: poolTimes[index - 1].value, //r_month.months == 0 ? 1 : r_month.months,
                         apr: APR_annualized.toString(),
+                        startTime:formatTimestampToDateTime(_startTime instanceof BigNumber ? _startTime.toNumber() : 0),
                         endTime: formatTimestampToDateTime(_lockTime instanceof BigNumber ? _lockTime.toNumber() : 0),
                         totalStaked: r_totalSupply,
                         totalStakedUSD: new BigNumberJS(r_totalSupply).multipliedBy(get().abc_Price ?? 0).toString(),
@@ -193,35 +202,41 @@ export const useDataStore = create<DataSlice>((set, get) => ({
 
 
                     if (account) {
-                        let tasksUser: Contract[] = []
-                        // //可mint时间
-                        // const poolMint = poolContract.poolMints(index, account).catch()
-                        // tasksUser.push(poolMint)
-                        //锁仓数量
-                        const balance = poolContract.balanceOf(account, index).catch()
-                        tasksUser.push(balance)
-                        //在当前池子得到的未领取奖励 cfx
-                        const rewardEarned = poolContract.poolRewardEarned(account, index).catch()
-                        tasksUser.push(rewardEarned)
+                        try {
+                            let tasksUser: Contract[] = []
+                            // //可mint时间
+                            // const poolMint = poolContract.poolMints(index, account).catch()
+                            // tasksUser.push(poolMint)
+                            //锁仓数量
+                            const balance = poolContract.balanceOf(account, index).catch()
+                            tasksUser.push(balance)
+                            //在当前池子得到的未领取奖励 cfx
+                            const rewardEarned = poolContract.poolRewardEarned(account, index).catch()
+                            tasksUser.push(rewardEarned)
 
-                        // const [_poolMint, _balance, _rewardEarned] = await Promise.all(tasksUser).catch()
-                        const [_balance, _rewardEarned] = await Promise.all(tasksUser).catch()
+                            // const [_poolMint, _balance, _rewardEarned] = await Promise.all(tasksUser).catch()
+                            const [_balance, _rewardEarned] = await Promise.all(tasksUser).catch()
 
 
-                        // console.log({
-                        //     name_abc: `${index}--user----------------------------------`,
-                        //     _poolMint: _poolMint instanceof BigNumber ? _poolMint.toString() : '0',
-                        //     _rewardPerTokenStored: _balance instanceof BigNumber ? _balance.toString() : '0',
-                        //     _rewardEarned: _rewardEarned instanceof BigNumber ? _rewardEarned.toString() : '0',
-                        // })
+                            // console.log({
+                            //     name_abc: `${index}--user----------------------------------`,
+                            //     _poolMint: _poolMint instanceof BigNumber ? _poolMint.toString() : '0',
+                            //     _rewardPerTokenStored: _balance instanceof BigNumber ? _balance.toString() : '0',
+                            //     _rewardEarned: _rewardEarned instanceof BigNumber ? _rewardEarned.toString() : '0',
+                            // })
 
-                        const r_balance = _balance instanceof BigNumber ? ethers.utils.formatEther(_balance) : '0'
-                        _pool = {
-                            ..._pool,
-                            myStaked: r_balance,
-                            myStakedUSD: new BigNumberJS(r_balance).multipliedBy(get().abc_Price ?? 0).toString(),
-                            rewardEarned: _rewardEarned instanceof BigNumber ? ethers.utils.formatEther(_rewardEarned) : '0'
-                            // unstakeTime: string;
+                            const r_balance = _balance instanceof BigNumber ? ethers.utils.formatEther(_balance) : '0'
+                            _pool = {
+                                ..._pool,
+                                myStaked: r_balance,
+                                myStakedUSD: new BigNumberJS(r_balance).multipliedBy(get().abc_Price ?? 0).toString(),
+                                rewardEarned: _rewardEarned instanceof BigNumber ? ethers.utils.formatEther(_rewardEarned) : '0'
+                                // unstakeTime: string;
+                            }
+                        } catch (error) {
+                            console.log({
+                                error
+                            })
                         }
                     }
 
@@ -239,8 +254,12 @@ export const useDataStore = create<DataSlice>((set, get) => ({
                 // const stakingAddress = await poolContract.stakingPowerAddress().catch()
 
                 //================================================================
+
+           
                 if (account) {
-                    const abcBanlance = await erc20Contract.balanceOf(account).catch()
+           
+                    const abcBanlance = await erc20Contract.balanceOf(account).catch((error: any) => {}) 
+
                     set({
                         abc_balance: ethers.utils.formatEther(abcBanlance),
                         pools: poolArray
@@ -282,19 +301,19 @@ function secondsToDaysAndMonths(seconds: number) {
 }
 
 function formatTimestampToDateTime(timestamp: number) {
-   // 创建一个Date对象，传入时间戳（以毫秒为单位，所以要乘以1000）
-   const date = new Date(timestamp * 1000);
+    // 创建一个Date对象，传入时间戳（以毫秒为单位，所以要乘以1000）
+    const date = new Date(timestamp * 1000);
 
-   // 使用Date对象的方法获取年、月、日、小时、分钟和秒
-   const year = date.getFullYear();
-   const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，所以要加1
-   const day = date.getDate().toString().padStart(2, '0');
-   const hours = date.getHours().toString().padStart(2, '0');
-   const minutes = date.getMinutes().toString().padStart(2, '0');
-   // const seconds = date.getSeconds();
+    // 使用Date对象的方法获取年、月、日、小时、分钟和秒
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，所以要加1
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    // const seconds = date.getSeconds();
 
-   // 创建一个格式化的时间字符串
-   const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}`;
-   return formattedTime;
+    // 创建一个格式化的时间字符串
+    const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+    return formattedTime;
 }
 

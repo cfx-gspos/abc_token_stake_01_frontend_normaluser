@@ -197,7 +197,7 @@ export const StakeModal = () => {
 
         close()
 
-        initData(account, ethProvider)
+        initData(account)
       } catch (error) {
         toastInfo(false, 'Cancel Stake')
         console.error('Cancel Stake', error);
@@ -223,7 +223,7 @@ export const StakeModal = () => {
 
         //   close()
 
-        //   initData(account, provider)
+        //   initData(account)
         // } else {
         //   toastInfo(false, 'Stake Failure')
         // }
@@ -241,7 +241,7 @@ export const StakeModal = () => {
 
             close()
 
-            initData(account, ethProvider)
+            initData(account)
           } else {
 
             toastInfo(false, 'Stake Failure')

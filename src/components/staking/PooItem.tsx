@@ -111,7 +111,7 @@ export const PooItem = ({
                 <Box
                     sx={{
                         display: { xs: 'flex', xsm: 'block' },
-                        width: { xs: '100%'},
+                        width: { xs: '100%' },
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         mb: { xs: 3, xsm: 0 },
@@ -154,7 +154,7 @@ export const PooItem = ({
                 <Box
                     sx={{
                         display: { xs: 'flex', xsm: 'block' },
-                        width: { xs: '100%'},
+                        width: { xs: '100%' },
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         mb: { xs: 3, xsm: 0 },
@@ -234,17 +234,28 @@ export const PooItem = ({
                             mb: 2
                         }}
                     >
-                        {t('End Time')}
+                        {/* {t('End Time')} */}
+                        Start&End Time
                     </Typography>
-                    <Typography variant={'main16'} >
-                        {
-                            pool.endTime
-                        }
-                        {/* {dayjs
+                    <Box sx={{
+                        display:'flex',
+                        flexDirection:'column'
+                    }}>
+                        <Typography  variant="main16">
+                            {
+                                pool.startTime
+                            }
+                        </Typography>
+                        <Typography  variant="main16">
+                            {
+                                pool.endTime
+                            }
+                            {/* {dayjs
                         .unix(pool.endTime)
                         .format('DD/MM/YYYY HH:mm')
                     } */}
-                    </Typography>
+                        </Typography>
+                    </Box>
 
                 </Box>
             </div>

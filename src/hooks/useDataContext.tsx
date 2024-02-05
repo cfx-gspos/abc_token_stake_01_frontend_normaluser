@@ -1,4 +1,4 @@
-import React, { ReactElement, createContext, useContext, useEffect, useState } from 'react';
+import React, { ReactElement, createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useCurrentTimestamp } from '../utils/useCurrentTimestamp';
 import { useDataStore } from '../store/dataSlice';
 // import dayjs from 'dayjs'; 
@@ -10,12 +10,16 @@ export const DataContext = React.createContext({} as { currentTime: number });
 
 //
 export const DataContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
- 
-  const { chainId:ethChainId, account:ethAccount, provider, connector } = useWeb3React()
+
+  const { chainId: ethChainId, account: ethAccount, provider, connector } = useWeb3React()
   const { fluentWeb3Context } = useWeb3Store()
   const app_connect_wallet = typeof window !== "undefined" && localStorage.getItem('app_connect_wallet');
-  let account=app_connect_wallet == 'fluent'?fluentWeb3Context?.account:ethAccount
-  let chainId=app_connect_wallet == 'fluent'?fluentWeb3Context?.chainId:ethChainId
+  // let account = app_connect_wallet == 'fluent' ? fluentWeb3Context?.account : ethAccount
+  // let chainId = app_connect_wallet == 'fluent' ? fluentWeb3Context?.chainId : ethChainId
+
+  const account = useMemo(() => app_connect_wallet == 'fluent' ? fluentWeb3Context?.account : ethAccount, [fluentWeb3Context, ethAccount])
+  const chainId = useMemo(() => app_connect_wallet == 'fluent' ? fluentWeb3Context?.chainId : ethChainId, [fluentWeb3Context, ethAccount])
+
 
   const currentTime = useCurrentTimestamp(5);
   const { initData } = useDataStore.getState()
@@ -26,9 +30,12 @@ export const DataContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   // }, [chainId])
 
 
-  useEffect(() => {
-    initData(account, provider)
-  }, [currentTime,chainId])
+  
+
+
+  useEffect(() => { 
+    initData(account)
+  }, [currentTime, chainId, account])
 
 
   return (
