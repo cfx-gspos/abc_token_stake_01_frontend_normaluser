@@ -180,7 +180,7 @@ export const AppHeaderTop = () => {
             Claim Your Reward
         </Button> */}
 
-                <Button
+                {/* <Button
                   aria-label="language"
                   id="language-button"
                   aria-controls={openLg ? "language-button" : undefined}
@@ -217,7 +217,7 @@ export const AppHeaderTop = () => {
                   }
                 >
                   {languageVal}
-                </Button>
+                </Button> */}
 
                 <Button
                   aria-label="wallet"
@@ -383,7 +383,7 @@ export const AppHeaderTop = () => {
               }}
             >
 
-              <Button
+              {/* <Button
                 aria-label="language"
                 id="language-button"
                 aria-controls={openLg ? "language-button" : undefined}
@@ -420,7 +420,7 @@ export const AppHeaderTop = () => {
                 }
               >
                 {languageVal}
-              </Button>
+              </Button> */}
 
               <Button
                 aria-label="wallet"

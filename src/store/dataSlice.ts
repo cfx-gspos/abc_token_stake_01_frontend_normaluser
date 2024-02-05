@@ -90,7 +90,7 @@ export const useDataStore = create<DataSlice>((set, get) => ({
             if (provider) {
                 const erc20Contract = new Contract(abcAddress, ERC20ABI, provider) //abc
                 const poolContract = new Contract(poolAddress, PoolABI, provider)
-                const poolCount = 2
+                const poolCount = 4
 
                 let poolArray: PoolModal[] = new Array()
                 for (let index = 1; index <= poolCount; index++) {
@@ -175,8 +175,8 @@ export const useDataStore = create<DataSlice>((set, get) => ({
 
                     let _pool: PoolModal = {
                         pool_id: index,
-                        name: r_month.months > 1 ? `${r_month.months} months` : `1 month`,
-                        months: r_month.months == 0 ? 1 : r_month.months,
+                        name: poolTimes[index-1].name ,//r_month.months > 1 ? `${r_month.months} months` : `1 month`,
+                        months: poolTimes[index-1].value , //r_month.months == 0 ? 1 : r_month.months,
                         apr: APR_annualized.toString(),
                         endTime: formatTimestampToDateTime(_lockTime instanceof BigNumber ? _lockTime.toNumber() : 0),
                         totalStaked: r_totalSupply,
