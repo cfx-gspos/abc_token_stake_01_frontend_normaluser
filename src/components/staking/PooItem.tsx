@@ -221,7 +221,7 @@ export const PooItem = ({
                 <Box
                     sx={{
                         display: { xs: 'flex', xsm: 'block' },
-                        width: { xs: '100%', xsm: 'unset' },
+                        width: { xs: '100%' },
                         justifyContent: 'space-between',
                         alignItems: 'start',
                         mb: { xs: 3, xsm: 0 },
@@ -236,7 +236,7 @@ export const PooItem = ({
                     >
                         {t('End Time')}
                     </Typography>
-                    <Typography variant={'subheader2'}>
+                    <Typography variant={'main16'} >
                         {
                             pool.endTime
                         }
