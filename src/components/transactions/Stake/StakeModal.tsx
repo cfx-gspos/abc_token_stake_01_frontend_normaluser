@@ -295,6 +295,7 @@ export const StakeModal = () => {
   return (
     <BasicModal open={type === ModalType.Stake} contentMaxWidth={480} setOpen={close}>
       <TxModalTitle title={t(`Stake`)} symbol={'ABC'} />
+      {/* <TxModalTitle title={t(`Stake-${getPoolModal?.name}`)} symbol={'ABC'} /> */}
 
       <Box>
         <AssetInput
@@ -320,7 +321,7 @@ export const StakeModal = () => {
           <Alert severity="error" sx={{ margin: '10px 0 0 0', borderRadius: '20px' }}>Not enough balance on your wallet!</Alert>
         )}
 
-        <Box sx={{ pt: 5 }}>
+        {/* <Box sx={{ pt: 5 }}>
           <Typography sx={{ mb: 1 }} color="text.secondary">
             <>{t('Duration')}</>
           </Typography>
@@ -352,7 +353,7 @@ export const StakeModal = () => {
             </Stack>
           </Box>
 
-        </Box>
+        </Box> */}
 
         {blockingError === ErrorType.NOT_SELEDT_TIME && (
           <Alert severity="error" sx={{ margin: '10px 0 0 0', borderRadius: '20px' }}>Please select a time period!</Alert>
