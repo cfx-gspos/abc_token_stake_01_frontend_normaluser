@@ -10,8 +10,8 @@ import { useWeb3React } from "@web3-react/core";
 import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { CHAINS, ConnectChainID } from "../libs/chains";
 
-export const abcAddress = '0xDcebdA2fE31EA70871a62FD584B6D692ABde9727'
-export const poolAddress = '0xa792111cb7b143CdF2EbCDF6b9716b357869a2F1'
+export const abcAddress = '0x905f2202003453006eaf975699545f2e909079b8'
+export const poolAddress = '0xf59ea0cfe8223ce5caf72695cdd50921ea92f82f'
 
 export const poolTimes = [
     { name: '1 month', value: 1, pool_id: 1 },
