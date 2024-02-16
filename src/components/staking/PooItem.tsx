@@ -134,6 +134,7 @@ export const PooItem = ({
                         /> */}
                         <FormattedNumber
                             value={pool.totalRewardsCfx}
+                            visibleDecimals={2}
                             symbol={'CFX'}
                             variant="main16"
                         />

@@ -1,6 +1,6 @@
 import type { AddEthereumChainParameter } from '@web3-react/types'
 
-export const ConnectChainID: number = 71 //1030;
+export const ConnectChainID: number =1030 // 71 //1030;
 
 // export enum ChainIdETH {
 //     Mainnet = 1,

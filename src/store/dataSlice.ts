@@ -11,7 +11,7 @@ import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { CHAINS, ConnectChainID } from "../libs/chains";
 
 export const abcAddress = '0x905f2202003453006eaf975699545f2e909079b8'
-export const poolAddress = '0xf59ea0cfe8223ce5caf72695cdd50921ea92f82f'
+export const poolAddress = '0xdaf9b523145a812ac87f18e0c9124e632cf9bab2'
 
 export const poolTimes = [
     { name: '1 month', value: 1, pool_id: 1 },
@@ -26,7 +26,7 @@ export interface PoolModal {
     name: string;
     months: number;
     apr: string;
-    startTime:string;
+    startTime: string;
     endTime: string;
     totalStaked: string;
     totalStakedUSD: string;
@@ -98,7 +98,7 @@ export const useDataStore = create<DataSlice>((set, get) => ({
             if (provider) {
                 const erc20Contract = new Contract(abcAddress, ERC20ABI, provider) //abc
                 const poolContract = new Contract(poolAddress, PoolABI, provider)
-                const poolCount = 4
+                const poolCount = 1
 
                 let poolArray: PoolModal[] = new Array()
                 for (let index = 1; index <= poolCount; index++) {
@@ -151,25 +151,28 @@ export const useDataStore = create<DataSlice>((set, get) => ({
                     const APR_annualized = Number(APR_per_second) * seconds_in_a_year
                     // const APR_annualized = Math.pow(1 + Number(APR_per_second), seconds_in_a_year) - 1;
 
+                    const currentDate = new Date();
+                    const currentTimestampInSeconds = Math.floor(currentDate.getTime() / 1000);
 
                     // console.log({
                     //     name_abc: `${index}--pool----------------------------------`,
-                    //     _poolData: secondsToDaysAndMonths(_poolData instanceof BigNumber ? _poolData.toNumber() : 0),
-                    //     _poolData2: _poolData instanceof BigNumber ? _poolData.toNumber() : 0,
+                    //     // _poolData: secondsToDaysAndMonths(_poolData instanceof BigNumber ? _poolData.toNumber() : 0),
+                    //     // _poolData2: _poolData instanceof BigNumber ? _poolData.toNumber() : 0,
+                    //     startTime: _startTime.toNumber(),
                     //     _startTime: formatTimestampToDateTime(_startTime instanceof BigNumber ? _startTime.toNumber() : 0),
-                    //     _startTime2: _startTime instanceof BigNumber ? _startTime.toNumber() : 0,
-                    //     _totalSupply: _totalSupply instanceof BigNumber ? _totalSupply.toString() : '0',
-                    //     _lockTime: formatTimestampToDateTime(_lockTime instanceof BigNumber ? _lockTime.toNumber() : 0),
-                    //     _lockTime2: _lockTime instanceof BigNumber ? _lockTime.toNumber() : 0,
-                    //     // _rewardPerTokenStored: _rewardPerTokenStored instanceof BigNumber ? _rewardPerTokenStored.toString() : '0',
-                    //     _curPoolRewardRate1: _curPoolRewardRate instanceof BigNumber ? ethers.utils.formatEther(_curPoolRewardRate) : '0',
-                    //     _curPoolRewardRate: APR_annualized,
-                    //     _poolRewardCfx: _poolRewardCfx instanceof BigNumber ? _poolRewardCfx.toString() : '0',
-                    //     _hasMint: _hasMint instanceof BigNumber ? _hasMint.toString() : '0',
+                    //     currentTimestampInSeconds,
+                    //     // _startTime2: _startTime instanceof BigNumber ? _startTime.toNumber() : 0,
+                    //     // _totalSupply: _totalSupply instanceof BigNumber ? _totalSupply.toString() : '0',
+                    //     // _lockTime: formatTimestampToDateTime(_lockTime instanceof BigNumber ? _lockTime.toNumber() : 0),
+                    //    _lockTime2: _lockTime instanceof BigNumber ? _lockTime.toNumber() : 0,
+                    //     // // _rewardPerTokenStored: _rewardPerTokenStored instanceof BigNumber ? _rewardPerTokenStored.toString() : '0',
+                    //     // _curPoolRewardRate1: _curPoolRewardRate instanceof BigNumber ? ethers.utils.formatEther(_curPoolRewardRate) : '0',
+                    //     // _curPoolRewardRate: APR_annualized,
+                    //     // _poolRewardCfx: _poolRewardCfx instanceof BigNumber ? _poolRewardCfx.toString() : '0',
+                    //     // _hasMint: _hasMint instanceof BigNumber ? _hasMint.toString() : '0',
                     // })
 
-                    const currentDate = new Date();
-                    const currentTimestampInSeconds = Math.floor(currentDate.getTime() / 1000);
+
                     // console.log({
                     //     name_abc: `${index}--pool----------------------------------`, 
                     //     _startTime: _startTime.toNumber(), 
@@ -186,7 +189,7 @@ export const useDataStore = create<DataSlice>((set, get) => ({
                         name: poolTimes[index - 1].name,//r_month.months > 1 ? `${r_month.months} months` : `1 month`,
                         months: poolTimes[index - 1].value, //r_month.months == 0 ? 1 : r_month.months,
                         apr: APR_annualized.toString(),
-                        startTime:formatTimestampToDateTime(_startTime instanceof BigNumber ? _startTime.toNumber() : 0),
+                        startTime: formatTimestampToDateTime(_startTime instanceof BigNumber ? _startTime.toNumber() : 0),
                         endTime: formatTimestampToDateTime(_lockTime instanceof BigNumber ? _lockTime.toNumber() : 0),
                         totalStaked: r_totalSupply,
                         totalStakedUSD: new BigNumberJS(r_totalSupply).multipliedBy(get().abc_Price ?? 0).toString(),
@@ -255,10 +258,10 @@ export const useDataStore = create<DataSlice>((set, get) => ({
 
                 //================================================================
 
-           
+
                 if (account) {
-           
-                    const abcBanlance = await erc20Contract.balanceOf(account).catch((error: any) => {}) 
+
+                    const abcBanlance = await erc20Contract.balanceOf(account).catch((error: any) => { })
 
                     set({
                         abc_balance: ethers.utils.formatEther(abcBanlance),
@@ -302,7 +305,7 @@ function secondsToDaysAndMonths(seconds: number) {
 
 function formatTimestampToDateTime(timestamp: number) {
     // 创建一个Date对象，传入时间戳（以毫秒为单位，所以要乘以1000）
-    const date = new Date(timestamp * 1000);
+    const date = new Date(timestamp * (timestamp.toString().length === 10 ? 1000 : 1));
 
     // 使用Date对象的方法获取年、月、日、小时、分钟和秒
     const year = date.getFullYear();
