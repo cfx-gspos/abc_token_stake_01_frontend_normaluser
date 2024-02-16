@@ -173,6 +173,7 @@ export const PooItem = ({
                     <Box>
                         <FormattedNumber
                             value={pool.totalStaked}
+                            visibleDecimals={2}
                             symbol={'ABC'}
                             variant="main16"
                         />
@@ -445,6 +446,7 @@ export const PooItem = ({
                         }}>
                             <FormattedNumber
                                 value={pool.myStaked ?? '0'}
+                                visibleDecimals={4}
                                 variant="main16"
                             />
                         </Box>

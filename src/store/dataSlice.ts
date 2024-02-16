@@ -98,10 +98,11 @@ export const useDataStore = create<DataSlice>((set, get) => ({
             if (provider) {
                 const erc20Contract = new Contract(abcAddress, ERC20ABI, provider) //abc
                 const poolContract = new Contract(poolAddress, PoolABI, provider)
-                const poolCount = 1
+                const poolCount = 2
 
                 let poolArray: PoolModal[] = new Array()
                 for (let index = 1; index <= poolCount; index++) {
+                  try {
                     let tasksPool: Contract[] = []
                     //1、池子锁仓时长
                     const poolData = poolContract.pools(index).catch()
@@ -244,6 +245,9 @@ export const useDataStore = create<DataSlice>((set, get) => ({
                     }
 
                     poolArray.push(_pool)
+                  } catch (error) {
+                    
+                  }
                 }
 
 
