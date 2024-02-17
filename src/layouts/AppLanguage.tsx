@@ -46,7 +46,7 @@ export const AppLanguage = ({
 
   return (
     <>
-      <Menu
+      {/* <Menu
         id="wallet-menu"
         MenuListProps={{
           "aria-labelledby": "wallet-button",
@@ -102,7 +102,7 @@ export const AppLanguage = ({
     </>
 
 
-      </Menu>
+      </Menu> */}
     </>
   );
 };

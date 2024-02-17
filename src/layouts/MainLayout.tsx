@@ -1,8 +1,5 @@
 import { useTheme, Box, useMediaQuery, Container } from '@mui/material';
-import React, { ReactNode, useEffect, useState } from 'react';
-import { CommonABI } from '../ABI/Common';
-import { ReInvestPoolABI } from '../ABI/ReInvestPool';
-import { AppHeaderLeft } from './AppHeaderLeft';
+import React, { ReactNode, useEffect, useState } from 'react'; 
 import { AppHeaderTop } from './AppHeaderTop';
 import { Footer } from './Footer';
 

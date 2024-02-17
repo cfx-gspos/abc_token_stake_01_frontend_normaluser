@@ -2,9 +2,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import {
   Box,
   Button,
-  Container,
-  Menu,
-  MenuList,
+  Container, 
   Slide,
   SvgIcon,
   useMediaQuery,

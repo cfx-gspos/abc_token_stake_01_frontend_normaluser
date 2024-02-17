@@ -19,9 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ClaimModal } from '@/src/components/transactions/Stake/ClaimModal'
 import { UnStakeModal } from '@/src/components/transactions/Stake/UnStakeModal'
 import { connections } from '@/src/connection'
-import { Connector } from '@web3-react/types'
-import { useEffect } from 'react'
-import detectProvider from '@fluent-wallet/detect-provider'
+import { Connector } from '@web3-react/types' 
 import i18n from 'i18next';
 import { useTranslation, initReactI18next } from 'react-i18next';
 import enTranslations from '@/src/locales/en.json';

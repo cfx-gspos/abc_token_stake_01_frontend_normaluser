@@ -22,17 +22,26 @@ export const StakingHeader: React.FC<StakingHeaderProps> = ({ tvl, stkEmission, 
 
   // const isMobile = useMediaQuery('(max-width:1204px)');
   const { t } = useTranslation();
-  
+
   return (
     <TopInfoPanel
       titleComponent={
         <Box mb={4}>
 
-          <Typography sx={{ color: '#8E92A3', maxWidth: '824px' }}> 
-          {t('Stake is a common concept in the blockchain and cryptocurrency space. It refers to locking a certain amount of cryptocurrency assets in a specific smart contract in order to gain certain rights or rewards.')}
-          </Typography>
+          <Box sx={{ color: '#8E92A3', maxWidth: '824px',display:'flex',flexDirection:'column', gap:'6px'}}>
+            <Typography>Rules Explanation:</Typography>
+            <Typography>
+              1. The input of ABC is completely lossless.
+            </Typography>
+            <Typography>
+              2. The obtained returns need to be withdrawn together with ABC at the end of the lock-in period.
+            </Typography>
+            <Typography>
+              3. If no manual exit is made within 24 hours after the lock-in period ends, it will automatically default to the next round.
+            </Typography> 
+          </Box>
           <Typography>
-        
+
           </Typography>
         </Box>
       }
