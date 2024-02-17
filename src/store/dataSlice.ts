@@ -11,7 +11,7 @@ import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { CHAINS, ConnectChainID } from "../libs/chains";
 
 export const abcAddress = '0x905f2202003453006eaf975699545f2e909079b8'
-export const poolAddress = '0xdaf9b523145a812ac87f18e0c9124e632cf9bab2'
+export const poolAddress = '0x78469d91f5f8a177d3df2ce02437810497e817cb'
 
 export const poolTimes = [
     { name: '1 month', value: 1, pool_id: 1 },
