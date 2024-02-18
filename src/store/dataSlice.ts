@@ -98,7 +98,7 @@ export const useDataStore = create<DataSlice>((set, get) => ({
             if (provider) {
                 const erc20Contract = new Contract(abcAddress, ERC20ABI, provider) //abc
                 const poolContract = new Contract(poolAddress, PoolABI, provider)
-                const poolCount = 2
+                const poolCount = 1
 
                 let poolArray: PoolModal[] = new Array()
                 for (let index = 1; index <= poolCount; index++) {
