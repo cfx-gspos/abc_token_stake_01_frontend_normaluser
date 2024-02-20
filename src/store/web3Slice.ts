@@ -44,7 +44,8 @@ export interface Web3Slice {
     // getContract: (contractAddress: string, ABI: ContractInterface) => Contract
     fluentConnectWallet: () => Promise<void>;
     fluentWeb3Context?: FluentModals;
-
+    browserConnectWallet: () => Promise<void>;
+    browserWeb3Context?: FluentModals;
 }
 
 export const useWeb3Store = create<Web3Slice>((set, get) => ({
@@ -151,9 +152,9 @@ export const useWeb3Store = create<Web3Slice>((set, get) => ({
     async switchNetwork(connector, chainId) {
         const app_connect_wallet = localStorage.getItem('app_connect_wallet');
         if (app_connect_wallet == 'fluent') {
-            try {
-                const info = getNetworkConfig(chainId);
+            const info = getNetworkConfig(chainId);
 
+            try { 
                 await window.ethereum.request({
                     method: 'wallet_addEthereumChain',
                     params: [
@@ -195,9 +196,68 @@ export const useWeb3Store = create<Web3Slice>((set, get) => ({
 
 
             } catch (error) {
-                throw error;
+                window.ethereum.request({
+                    method: "wallet_addEthereumChain",
+                    params: [
+                        {
+                            chainId: `0x${chainId.toString(16)}`, // Hexadecimal representation of the chainId
+                            chainName: info.name,
+                            nativeCurrency: {
+                                symbol: info.baseAssetSymbol,
+                                decimals: info.baseAssetDecimals,
+                            },
+                            rpcUrls: info.publicJsonRPCUrl[0],
+                            blockExplorerUrls: [info.explorerLink],
+                        }
+                    ]
+                });
             }
-        } else {
+        } else if (app_connect_wallet == 'browser') {
+            const info = getNetworkConfig(chainId);
+
+            window.ethereum
+                .request({
+                    method: 'wallet_switchEthereumChain', params: [
+                        {
+                            chainId: `0x${chainId.toString(16)}`, // Hexadecimal representation of the chainId
+                            chainName: info.name,
+                            nativeCurrency: {
+                                symbol: info.baseAssetSymbol,
+                                decimals: info.baseAssetDecimals,
+                            },
+                            rpcUrls: info.publicJsonRPCUrl[0],
+                            blockExplorerUrls: [info.explorerLink],
+                        }
+                    ]
+                })
+                .then(() => {
+                    set({
+                        browserWeb3Context: {
+                            account: get().browserWeb3Context?.account,
+                            chainId,
+                            provider: window.ethereum
+                        }
+                    });
+                })
+                .catch(() => {
+                    window.ethereum.request({
+                        method: "wallet_addEthereumChain",
+                        params: [
+                            {
+                                chainId: `0x${chainId.toString(16)}`, // Hexadecimal representation of the chainId
+                                chainName: info.name,
+                                nativeCurrency: {
+                                    symbol: info.baseAssetSymbol,
+                                    decimals: info.baseAssetDecimals,
+                                },
+                                rpcUrls: info.publicJsonRPCUrl[0],
+                                blockExplorerUrls: [info.explorerLink],
+                            }
+                        ]
+                    });
+                });
+        }
+         else {
             try {
                 //   if (
                 //     [
@@ -249,9 +309,7 @@ export const useWeb3Store = create<Web3Slice>((set, get) => ({
                 //   }
 
             }
-        }
-
-
+        } 
     },
     async fluentConnectWallet() {
 
@@ -398,6 +456,49 @@ export const useWeb3Store = create<Web3Slice>((set, get) => ({
         //         })
         //         .catch((error: { message: any; }) => console.error('error', error.message || error))
 
+
+
+    },
+    async browserConnectWallet() {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }) 
+        const _chainId = await window.ethereum.request({ method: "eth_chainId" });
+  
+        const onAccountsChanged = async (accounts: string[]) => {
+            set({
+                browserWeb3Context: {
+                    account: accounts[0],
+                    chainId: get().browserWeb3Context?.chainId,
+                    provider: window.ethereum
+                }
+            });
+        }
+        const onChainChanged = async (chain: any) => {
+            //parseInt(chain, 16) 
+            set({
+                browserWeb3Context: {
+                    account: get().browserWeb3Context?.account,
+                    chainId: parseInt(chain, 16),
+                    provider: window.ethereum
+                }
+            });
+        };
+        window.ethereum?.on("accountsChanged", onAccountsChanged);
+        window.ethereum?.on("chainChanged", onChainChanged);
+
+
+        // const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+        set({
+            browserWeb3Context: {
+                account: accounts[0],
+                chainId: parseInt(_chainId, 16),
+                provider: window.ethereum
+            },
+            isWalletModalOpen: false,
+        });
+
+        localStorage.setItem('app_connected', '1');
+        localStorage.setItem('app_connect_wallet', 'browser');
 
 
     }

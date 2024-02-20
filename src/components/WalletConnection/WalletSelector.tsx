@@ -86,6 +86,15 @@ const getWalletIcon = (walletType: WalletType) => {
           alt={`browser wallet icon`}
         />
       );
+    case WalletType.BROWSER:
+      return (
+        <img
+          src={`/icons/wallets/OTHER.svg`}
+          width="24px"
+          height="24px"
+          alt={`browser wallet icon`}
+        />
+      );
     default:
       return null;
   }
@@ -96,7 +105,7 @@ const WalletRow = ({ walletName, walletType, connect, url }: WalletRowProps) => 
 
   const { chainId } = useWeb3React()
   // const { connectWallet } = useWeb3Store(state => ({ connectWallet: state.connectWallet }));
-  const { connectWallet, fluentConnectWallet } = useWeb3Store();
+  const { connectWallet, fluentConnectWallet, browserConnectWallet } = useWeb3Store();
 
   const ethConnectWalletClick = async (connect?: Connection) => {
 
@@ -105,11 +114,13 @@ const WalletRow = ({ walletName, walletType, connect, url }: WalletRowProps) => 
 
 
       if (provider && provider.isFluent) {
-        fluentConnectWallet() 
+        fluentConnectWallet()
       } else {
         window.open(url, '_blank')
       }
 
+    } else if (walletType == WalletType.BROWSER) {
+      browserConnectWallet()
     } else {
       if (!connect) {
         window.open(url, '_blank')
@@ -168,8 +179,8 @@ export const WalletSelector = () => {
   //   orderedConnections
   // })
 
-  const { t} = useTranslation();
-  
+  const { t } = useTranslation();
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <TxModalTitle title={t("Connect a wallet")} />
@@ -203,6 +214,14 @@ export const WalletSelector = () => {
         walletType={WalletType.FLUENT}
         connect={orderedConnections.find((g) => g.getProviderInfo().name == 'Fluent')}
         url="https://fluentwallet.com/"
+      />
+
+      <WalletRow
+        key="browser_wallet"
+        walletName="Other wallet"
+        walletType={WalletType.BROWSER}
+        // connect={orderedConnections.find((g) => g.getProviderInfo().name == 'Other')}
+        url="/"
       />
 
       {/* <WalletRow

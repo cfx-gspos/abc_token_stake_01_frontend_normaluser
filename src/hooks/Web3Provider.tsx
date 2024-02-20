@@ -15,11 +15,12 @@ export const Web3Context = React.createContext(null);
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
 
 
-    const { chainId:ethChainId } = useWeb3React()
-    const { fluentWeb3Context,fluentConnectWallet } = useWeb3Store()
+    const { chainId: ethChainId } = useWeb3React()
+    const { fluentWeb3Context, fluentConnectWallet, browserWeb3Context, browserConnectWallet } = useWeb3Store()
     const app_connect_wallet = typeof window !== "undefined" && localStorage.getItem('app_connect_wallet');
-    // let account=app_connect_wallet == 'fluent'?fluentWeb3Context?.account:ethAccount
-    let chainId=app_connect_wallet == 'fluent'?fluentWeb3Context?.chainId:ethChainId
+    // let account=app_connect_wallet == 'fluent'?fluentWeb3Context?.account:ethAccount 
+    let chainId = app_connect_wallet == 'fluent' ? fluentWeb3Context?.chainId : app_connect_wallet == 'browser' ? browserWeb3Context?.chainId : ethChainId
+
 
     const { type, close, setType } = useModalStore()
 
@@ -31,28 +32,30 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     useEffect(() => {
         const connected = typeof window !== "undefined" && localStorage.getItem('app_connected')
         if (connected === '1') {
-            if(app_connect_wallet == 'fluent'){
+            if (app_connect_wallet == 'fluent') {
                 fluentConnectWallet()
-            }else{
+            } else if (app_connect_wallet == 'browser') {
+                browserConnectWallet()
+            } else {
                 const connect_rnds = typeof window !== "undefined" && localStorage.getItem('app_connect_rnds')
                 if (connect_rnds && connect_rnds !== '') {
                     eip6963Connection.selectRdns(connect_rnds)
                 }
-                
+
                 const connectType = typeof window !== "undefined" && localStorage.getItem('app_connect_type')
                 const ethsslConnection = getConnection(connectType as ConnectionType)
-    
+
                 if (ethsslConnection) {
                     ethsslConnection.overrideActivate?.(chainId ?? ConnectChainID)  //It has to be, otherwise it won't load the initial values.
-    
+
                     connect(ethsslConnection)
                         .then((connected) => {
                             // if (!connected) throw new FailedToConnect()  
                         })
-    
+
                 }
             }
-           
+
 
             // void metaMask.connectEagerly().then(() => {
             // }).catch(() => {
@@ -69,7 +72,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
         }
     }, [])
 
- 
+
 
     useEffect(() => {
         if (chainId && chainId !== 0) {

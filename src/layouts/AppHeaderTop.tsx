@@ -50,9 +50,12 @@ export const AppHeaderTop = () => {
   // );
 
   const { account:ethAccount } = useWeb3React()
-  const { fluentWeb3Context } = useWeb3Store()
+  const { fluentWeb3Context,browserWeb3Context } = useWeb3Store()
   const app_connect_wallet = typeof window !== "undefined" && localStorage.getItem('app_connect_wallet');
-  let account=app_connect_wallet == 'fluent'?fluentWeb3Context?.account:ethAccount
+  const account = app_connect_wallet == 'fluent' ? fluentWeb3Context?.account : app_connect_wallet == 'browser' ? browserWeb3Context?.account : ethAccount 
+ // const chainId = app_connect_wallet == 'fluent' ? fluentWeb3Context?.chainId : app_connect_wallet == 'browser' ? browserWeb3Context?.chainId : ethChainId
+
+
   const { t} = useTranslation();
 
   const setWalletModalOpen = useWeb3Store((state) => state.setWalletModalOpen);

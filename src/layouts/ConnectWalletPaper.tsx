@@ -1,6 +1,6 @@
 import { Button, CircularProgress, Paper, PaperProps, Typography } from '@mui/material';
 import { ReactNode } from 'react';
-import { useWeb3Store } from '../store/web3Slice-del';
+import { useWeb3Store } from '../store/web3Slice';
 
 interface ConnectWalletPaperProps extends PaperProps {
     loading?: boolean;

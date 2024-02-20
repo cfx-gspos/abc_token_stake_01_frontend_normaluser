@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "set port=6006 & next dev",
+    "dev": "set port=6007 & next dev",
     "build": "next build",
     "start": "next start",
     "build:static": "next build && next export",
