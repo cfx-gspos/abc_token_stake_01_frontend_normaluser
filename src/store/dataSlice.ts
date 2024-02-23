@@ -12,6 +12,7 @@ import { CHAINS, ConnectChainID } from "../libs/chains";
 
 export const abcAddress = '0x905f2202003453006eaf975699545f2e909079b8'
 export const poolAddress = '0x420A75EA83D3f54A02cC3863C43fC5deD5858D52'
+const poolCount = 2
 
 export const poolTimes = [
     { name: '1 month', value: 1, pool_id: 1 },
@@ -98,7 +99,7 @@ export const useDataStore = create<DataSlice>((set, get) => ({
             if (provider) {
                 const erc20Contract = new Contract(abcAddress, ERC20ABI, provider) //abc
                 const poolContract = new Contract(poolAddress, PoolABI, provider)
-                const poolCount = 1
+              
 
                 let poolArray: PoolModal[] = new Array()
                 for (let index = 1; index <= poolCount; index++) {

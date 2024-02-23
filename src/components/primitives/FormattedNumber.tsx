@@ -50,7 +50,7 @@ export interface FormattedNumberProps extends TypographyProps {
   symbolsColor?: string;
   symbolsVariant?: OverridableStringUnion<Variant | 'inherit', TypographyPropsVariantOverrides>;
   roundDown?: boolean;
-
+ 
 }
 
 export function FormattedNumber({
@@ -112,7 +112,7 @@ export function FormattedNumber({
       {symbol?.toLowerCase() === 'usd' && !percent && (
         <Typography
           component="span"
-          sx={{ mr: 0.5, fontWeight: 'bold' }}
+          sx={{ mr: 0.5 ,fontWeight:'bold'}}
           variant={symbolsVariant || rest.variant}
           color={symbolsColor || 'text.secondary'}
         >
@@ -120,23 +120,14 @@ export function FormattedNumber({
         </Typography>
       )}
 
-      <Typography
-        component="span"
-        variant={'main16'}
-        // color={'text.primary'}
-        className='css-mb-color'
-         >
-
-        {!forceCompact ? (
-          new Intl.NumberFormat('en-US', {
-            maximumFractionDigits: decimals,
-            minimumFractionDigits: decimals,
-          }).format(formattedNumber)
-        ) : (
-          <CompactNumber value={formattedNumber} visibleDecimals={decimals} roundDown={roundDown} />
-        )}
-
-      </Typography>
+      {!forceCompact ? (
+        new Intl.NumberFormat('en-US', {
+          maximumFractionDigits: decimals,
+          minimumFractionDigits: decimals,
+        }).format(formattedNumber)
+      ) : (
+        <CompactNumber value={formattedNumber} visibleDecimals={decimals} roundDown={roundDown} />
+      )}
 
       {percent && (
         <Typography
