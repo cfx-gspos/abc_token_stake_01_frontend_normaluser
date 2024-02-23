@@ -1,9 +1,10 @@
-import { normalizeBN, valueToBigNumber } from '@/src/utils/zzbignumber';
+import { normalizeBN, valueToBigNumber } from '@/src/utils/zzbignumber'; 
 import { Typography } from '@mui/material';
 import { Variant } from '@mui/material/styles/createTypography';
 import { TypographyProps } from '@mui/material/Typography';
 import { TypographyPropsVariantOverrides } from '@mui/material/Typography/Typography';
 import { OverridableStringUnion } from '@mui/types';
+import { Trans } from 'react-i18next';
 
 interface CompactNumberProps {
   value: string | number;
@@ -120,6 +121,7 @@ export function FormattedNumber({
         </Typography>
       )}
 
+   <Trans> 
       {!forceCompact ? (
         new Intl.NumberFormat('en-US', {
           maximumFractionDigits: decimals,
@@ -128,6 +130,8 @@ export function FormattedNumber({
       ) : (
         <CompactNumber value={formattedNumber} visibleDecimals={decimals} roundDown={roundDown} />
       )}
+      
+      </Trans>
 
       {percent && (
         <Typography
