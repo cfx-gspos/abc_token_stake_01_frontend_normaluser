@@ -123,7 +123,8 @@ export function FormattedNumber({
       <Typography
         component="span"
         variant={'main16'}
-        color={'text.primary'}
+        // color={'text.primary'}
+        className='css-mb-color'
          >
 
         {!forceCompact ? (
