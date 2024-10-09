@@ -18,8 +18,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     const { chainId: ethChainId } = useWeb3React()
     const { fluentWeb3Context, fluentConnectWallet, browserWeb3Context, browserConnectWallet } = useWeb3Store()
     const app_connect_wallet = typeof window !== "undefined" && localStorage.getItem('app_connect_wallet');
-
-    // let account=app_connect_wallet == 'fluent'?fluentWeb3Context?.account:ethAccount
+    // let account=app_connect_wallet == 'fluent'?fluentWeb3Context?.account:ethAccount 
     let chainId = app_connect_wallet == 'fluent' ? fluentWeb3Context?.chainId : app_connect_wallet == 'browser' ? browserWeb3Context?.chainId : ethChainId
 
 
@@ -35,11 +34,9 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
         if (connected === '1') {
             if (app_connect_wallet == 'fluent') {
                 fluentConnectWallet()
-            } 
-            else if(app_connect_wallet=='browser'){
+            } else if (app_connect_wallet == 'browser') {
                 browserConnectWallet()
-            }
-            else {
+            } else {
                 const connect_rnds = typeof window !== "undefined" && localStorage.getItem('app_connect_rnds')
                 if (connect_rnds && connect_rnds !== '') {
                     eip6963Connection.selectRdns(connect_rnds)

@@ -1,5 +1,5 @@
 import { WalletModal } from '@/src/components/WalletConnection/WalletModal'
-import '@/styles/globals.css'
+import '@/styles/globals.css?v=2'
 import type { AppProps } from 'next/app'
 import { AppGlobalStyles } from '@/src/utils/AppGlobalStyles'
 import { SwitchNetworkModal } from '@/src/dialog/SwitchNetworkModal'

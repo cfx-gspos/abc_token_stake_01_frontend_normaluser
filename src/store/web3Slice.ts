@@ -116,15 +116,7 @@ export const useWeb3Store = create<Web3Slice>((set, get) => ({
             set({
                 fluentWeb3Context: undefined
             });
-        }
-        else if (app_connect_wallet == 'browser') {
-            localStorage.removeItem('app_connected');
-            localStorage.removeItem('app_connect_wallet');
-            set({
-                browserWeb3Context: undefined
-            });
-        }
-        else {
+        } else {
             if (connector) {
                 connector.deactivate?.()
                 connector.resetState()
@@ -175,7 +167,7 @@ export const useWeb3Store = create<Web3Slice>((set, get) => ({
                             },
                             rpcUrls: info.publicJsonRPCUrl[0],
                             blockExplorerUrls: [info.explorerLink],
-                        }
+                        },
                     ],
                 });
 
@@ -220,8 +212,7 @@ export const useWeb3Store = create<Web3Slice>((set, get) => ({
                     ]
                 });
             }
-        }
-        else if (app_connect_wallet == 'browser') {
+        } else if (app_connect_wallet == 'browser') {
             const info = getNetworkConfig(chainId);
 
             window.ethereum
@@ -266,7 +257,7 @@ export const useWeb3Store = create<Web3Slice>((set, get) => ({
                     });
                 });
         }
-        else {
+         else {
             try {
                 //   if (
                 //     [
@@ -318,9 +309,7 @@ export const useWeb3Store = create<Web3Slice>((set, get) => ({
                 //   }
 
             }
-        }
-
-
+        } 
     },
     async fluentConnectWallet() {
 
@@ -328,22 +317,48 @@ export const useWeb3Store = create<Web3Slice>((set, get) => ({
             injectFlag: "conflux",
             defaultWalletFlag: "isFluent",
         })
-        if (provider) { 
-            const chainId = await (provider as any).request({ method: 'eth_chainId' }); 
-            await (provider as any).request({ method: 'eth_requestAccounts' })
-                .then((accounts: any) => {
-                    set({
-                        fluentWeb3Context: {
-                            account: accounts[0],
-                            chainId: parseInt(chainId, 16),
-                            provider
-                        },
-                        isWalletModalOpen: false,
-                    });
+        if (provider) {
+            // console.log('Conflux successfully detected!')
 
-                    localStorage.setItem('app_connected', '1');
-                    localStorage.setItem('app_connect_wallet', 'fluent');
-                })
+
+            // const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+
+
+            // window.ethereum.on('chainChanged', function (rs: any) {
+            //     console.log({
+            //         rs
+            //     })
+
+            // });
+
+
+            // window.ethereum.request({ method: 'eth_accounts' })
+            //     .then(function(accounts: string | any[]){
+            //         console.log({
+            //             eth_accounts:accounts
+            //         })
+            //     })
+            //     .catch((err: any) => {
+            //         console.error(err);
+            //     });
+
+            // window.ethereum.on('accountsChanged', handleAccountsChanged);
+            const chainId = await (provider as any).request({ method: 'eth_chainId' });
+
+             await (provider as any).request({ method: 'eth_requestAccounts' })
+             .then((accounts:any)=>{
+                set({
+                    fluentWeb3Context: {
+                        account: accounts[0],
+                        chainId: parseInt(chainId, 16),
+                        provider
+                    },
+                    isWalletModalOpen: false,
+                });
+    
+                localStorage.setItem('app_connected', '1');
+                localStorage.setItem('app_connect_wallet', 'fluent');
+             })
                 .catch((err: { code: number; }) => {
                     if (err.code === 4001) {
                         console.log('Please connect to Fluent Wallet.');
@@ -352,7 +367,7 @@ export const useWeb3Store = create<Web3Slice>((set, get) => ({
                     }
                 });
 
-
+        
 
             // await (provider as any).on('accountsChanged', function (accounts: any) {
             //     console.log({
@@ -376,7 +391,7 @@ export const useWeb3Store = create<Web3Slice>((set, get) => ({
                 });
             });
 
-
+         
 
         }
         // const provider = window.conflux
@@ -445,12 +460,9 @@ export const useWeb3Store = create<Web3Slice>((set, get) => ({
 
     },
     async browserConnectWallet() {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
-
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }) 
         const _chainId = await window.ethereum.request({ method: "eth_chainId" });
-
-        // alert(parseInt(_chainId, 16))
-
+  
         const onAccountsChanged = async (accounts: string[]) => {
             set({
                 browserWeb3Context: {

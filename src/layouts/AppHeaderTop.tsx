@@ -2,14 +2,14 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import {
   Box,
   Button,
-  Container,
+  Container, 
   Slide,
   SvgIcon,
   useMediaQuery,
   useScrollTrigger,
   useTheme,
 } from "@mui/material";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react"; 
 import { textCenterEllipsis } from "../utils/text-center-ellipsis";
 import makeBlockie from "ethereum-blockies-base64";
 import { Avatar, AvatarSize } from "../utils/Avatar";
@@ -49,15 +49,14 @@ export const AppHeaderTop = () => {
   //   })
   // );
 
-  const { account: ethAccount } = useWeb3React()
-  const { fluentWeb3Context, browserWeb3Context } = useWeb3Store()
+  const { account:ethAccount } = useWeb3React()
+  const { fluentWeb3Context,browserWeb3Context } = useWeb3Store()
   const app_connect_wallet = typeof window !== "undefined" && localStorage.getItem('app_connect_wallet');
-  // let account=app_connect_wallet == 'fluent'?fluentWeb3Context?.account:ethAccount
-  let account = app_connect_wallet == 'fluent' ? fluentWeb3Context?.account : app_connect_wallet == 'browser' ? browserWeb3Context?.account : ethAccount
+  const account = app_connect_wallet == 'fluent' ? fluentWeb3Context?.account : app_connect_wallet == 'browser' ? browserWeb3Context?.account : ethAccount 
+ // const chainId = app_connect_wallet == 'fluent' ? fluentWeb3Context?.chainId : app_connect_wallet == 'browser' ? browserWeb3Context?.chainId : ethChainId
 
 
-
-  const { t } = useTranslation();
+  const { t} = useTranslation();
 
   const setWalletModalOpen = useWeb3Store((state) => state.setWalletModalOpen);
   // const disconnectWallet = useWeb3Store(state => state.disconnectWallet)
@@ -526,3 +525,4 @@ export const AppHeaderTop = () => {
     </>
   );
 };
+ 

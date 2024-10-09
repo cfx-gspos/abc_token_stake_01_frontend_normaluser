@@ -14,12 +14,13 @@ import { useWeb3Store } from "@/src/store/web3Slice";
 
 export function PoolsList() {
 
-    const { chainId:ethChainId, account:ethAccount } = useWeb3React()
-    const { fluentWeb3Context } = useWeb3Store()
+    const { chainId: ethChainId, account: ethAccount } = useWeb3React()
+    const { fluentWeb3Context, browserWeb3Context } = useWeb3Store()
     const app_connect_wallet = typeof window !== "undefined" && localStorage.getItem('app_connect_wallet');
-    let account=app_connect_wallet == 'fluent'?fluentWeb3Context?.account:ethAccount
-    let chainId=app_connect_wallet == 'fluent'?fluentWeb3Context?.chainId:ethChainId
-  
+
+    const account = app_connect_wallet == 'fluent' ? fluentWeb3Context?.account : app_connect_wallet == 'browser' ? browserWeb3Context?.account : ethAccount
+    const chainId = app_connect_wallet == 'fluent' ? fluentWeb3Context?.chainId : app_connect_wallet == 'browser' ? browserWeb3Context?.chainId : ethChainId
+
 
     const { setWalletModalOpen } = useWeb3Store()
     const { setType } = useModalStore()
@@ -71,7 +72,7 @@ export function PoolsList() {
         else {
             setWalletModalOpen(true)
         }
-       
+
     }
 
     //TODO：pools map 
