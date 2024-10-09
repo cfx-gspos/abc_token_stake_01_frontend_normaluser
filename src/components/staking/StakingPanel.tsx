@@ -73,8 +73,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({
         }}
       >
         <Typography variant="h3">
-          {/* {t(`Stake`)}  */}
-          Stake {stakeTitle}
+          {t(`Stake`)} {stakeTitle}
         </Typography>
       </Box> 
       

@@ -12,13 +12,13 @@ export const DataContext = React.createContext({} as { currentTime: number });
 export const DataContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
 
   const { chainId: ethChainId, account: ethAccount, provider, connector } = useWeb3React()
-  const { fluentWeb3Context,browserWeb3Context } = useWeb3Store()
+  const { fluentWeb3Context } = useWeb3Store()
   const app_connect_wallet = typeof window !== "undefined" && localStorage.getItem('app_connect_wallet');
   // let account = app_connect_wallet == 'fluent' ? fluentWeb3Context?.account : ethAccount
   // let chainId = app_connect_wallet == 'fluent' ? fluentWeb3Context?.chainId : ethChainId
- 
-  const account = app_connect_wallet == 'fluent' ? fluentWeb3Context?.account : app_connect_wallet == 'browser' ? browserWeb3Context?.account : ethAccount 
-  const chainId = app_connect_wallet == 'fluent' ? fluentWeb3Context?.chainId : app_connect_wallet == 'browser' ? browserWeb3Context?.chainId : ethChainId
+
+  const account = useMemo(() => app_connect_wallet == 'fluent' ? fluentWeb3Context?.account : ethAccount, [fluentWeb3Context, ethAccount])
+  const chainId = useMemo(() => app_connect_wallet == 'fluent' ? fluentWeb3Context?.chainId : ethChainId, [fluentWeb3Context, ethAccount])
 
 
   const currentTime = useCurrentTimestamp(5);

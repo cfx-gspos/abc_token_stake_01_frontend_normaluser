@@ -38,11 +38,10 @@ export const StakeModal = () => {
   // const { provider, account, chainId, getContract } = useWeb3Store()
 
   const { chainId: ethChainId, account: ethAccount, provider: ethProvider } = useWeb3React()
-  const { fluentWeb3Context,browserWeb3Context } = useWeb3Store()
+  const { fluentWeb3Context } = useWeb3Store()
   const app_connect_wallet = typeof window !== "undefined" && localStorage.getItem('app_connect_wallet');
-  const account = app_connect_wallet == 'fluent' ? fluentWeb3Context?.account : app_connect_wallet == 'browser' ? browserWeb3Context?.account : ethAccount 
-  const chainId = app_connect_wallet == 'fluent' ? fluentWeb3Context?.chainId : app_connect_wallet == 'browser' ? browserWeb3Context?.chainId : ethChainId
-
+  let account = app_connect_wallet == 'fluent' ? fluentWeb3Context?.account : ethAccount
+  let chainId = app_connect_wallet == 'fluent' ? fluentWeb3Context?.chainId : ethChainId
 
   const [isApproveLP, setApproveLP] = useState(false)
   const [disabled, setDisabled] = useState(false)
@@ -137,36 +136,7 @@ export const StakeModal = () => {
         setApproveLP(true)
 
 
-      } else if (app_connect_wallet == 'browser'){
-        const signer = new ethers.providers.Web3Provider(browserWeb3Context?.provider).getSigner();
-
-        const erc20Contract = new Contract(abcAddress, ERC20ABI, signer);
-        const transactionParameters = {
-          from: account,
-          to: abcAddress,
-          data: erc20Contract.interface.encodeFunctionData('approve', [poolAddress, approvalAmount]),
-        };
-
-        // 发送交易
-        const transactionHash = await browserWeb3Context?.provider.request({
-          method: 'eth_sendTransaction',
-          params: [transactionParameters],
-        });
-
-        // console.log("交易哈希：", transactionHash);
-
-        // 等待交易收据
-        await browserWeb3Context?.provider.request({
-          method: 'eth_getTransactionReceipt',
-          params: [transactionHash],
-        });
-
-        toastInfo(true, 'Approve Successful')
-        setApproveLP(true)
-
-
-      }
-      else {
+      } else {
         const erc20Contract = new Contract(abcAddress, ERC20ABI, ethProvider!.getSigner(account).connectUnchecked()) //abc 
         const tx = await erc20Contract.approve(poolAddress, approvalAmount);
         const receipt = await tx.wait();
@@ -210,7 +180,7 @@ export const StakeModal = () => {
           params: [transactionParameters],
         });
 
-       // console.log("交易哈希：", transactionHash);
+        console.log("交易哈希：", transactionHash);
 
         await fluentWeb3Context?.provider.request({
           method: 'eth_getTransactionReceipt',
@@ -233,44 +203,7 @@ export const StakeModal = () => {
         console.error('Cancel Stake', error);
       }
 
-    } 
-    else if (app_connect_wallet == 'browser'){
-      try {
-        const signer = new ethers.providers.Web3Provider(browserWeb3Context?.provider).getSigner();
-        const poolContract = new ethers.Contract(poolAddress, PoolABI, signer);
-
-        const transactionParameters = {
-          from: account,
-          to: poolAddress,
-          data: poolContract.interface.encodeFunctionData('stake', [stakeAmount, getPoolModal?.pool_id]),
-        };
-        const transactionHash = await browserWeb3Context?.provider.request({
-          method: 'eth_sendTransaction',
-          params: [transactionParameters],
-        });
-
-        //console.log("交易哈希：", transactionHash);
-
-        await browserWeb3Context?.provider.request({
-          method: 'eth_getTransactionReceipt',
-          params: [transactionHash],
-        });
-
-        toastInfo(true, 'Stake Successful') 
-
-        setAmount('')
-        setSelectTime(undefined)
-        setBlockingError(undefined)
-
-        close()
-
-        initData(account)
-      } catch (error) {
-        toastInfo(false, 'Cancel Stake')
-        console.error('Cancel Stake', error);
-      }
-    }
-    else {
+    } else {
 
 
       try {

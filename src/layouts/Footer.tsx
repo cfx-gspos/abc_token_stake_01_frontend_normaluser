@@ -27,7 +27,7 @@ export const Footer = () => {
           DP494935329
         </Box>
         <Box className='item'>
-          <img src="https://confluxpos.cn/static/images/qq_logo.png" alt="" /> QQ: 1027288241
+          <img src="https://confluxpos.cn/static/images/qq_logo.png" alt="" /> QQ: 954815715
         </Box>
         <Box className='item'>
           <img src="https://confluxpos.cn/static/images/telegram_logo.png" alt="" /> Telegram{" "}

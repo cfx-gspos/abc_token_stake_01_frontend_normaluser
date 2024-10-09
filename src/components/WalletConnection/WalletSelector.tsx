@@ -12,6 +12,7 @@ import { useWeb3React } from "@web3-react/core";
 import { useOrderedConnections } from './useOrderedConnections';
 import { Connection } from '@/src/connection/types';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 
 export type WalletRowProps = {
   walletName: string;
@@ -86,15 +87,6 @@ const getWalletIcon = (walletType: WalletType) => {
           alt={`browser wallet icon`}
         />
       );
-    case WalletType.BROWSER:
-      return (
-        <img
-          src={`/icons/wallets/OTHER.svg`}
-          width="24px"
-          height="24px"
-          alt={`browser wallet icon`}
-        />
-      );
     default:
       return null;
   }
@@ -106,6 +98,8 @@ const WalletRow = ({ walletName, walletType, connect, url }: WalletRowProps) => 
   const { chainId } = useWeb3React()
   // const { connectWallet } = useWeb3Store(state => ({ connectWallet: state.connectWallet }));
   const { connectWallet, fluentConnectWallet, browserConnectWallet } = useWeb3Store();
+
+ const[doInfo,setDo]=useState('')
 
   const ethConnectWalletClick = async (connect?: Connection) => {
 
@@ -119,9 +113,13 @@ const WalletRow = ({ walletName, walletType, connect, url }: WalletRowProps) => 
         window.open(url, '_blank')
       }
 
-    } else if (walletType == WalletType.BROWSER) {
+    }
+    else if (walletType == WalletType.BROWSER) {
+
+      setDo('connect----pending----')
       browserConnectWallet()
-    } else {
+    }
+    else {
       if (!connect) {
         window.open(url, '_blank')
       } else {
@@ -145,7 +143,7 @@ const WalletRow = ({ walletName, walletType, connect, url }: WalletRowProps) => 
       onClick={() => ethConnectWalletClick(connect)}
       endIcon={getWalletIcon(walletType)}
     >
-      {walletName}
+      {walletName} {doInfo}
     </Button>
   );
 };
@@ -209,7 +207,7 @@ export const WalletSelector = () => {
       />
 
       <WalletRow
-        key="walletconnect_wallet"
+        key="Fluent_wallet"
         walletName="Fluent"
         walletType={WalletType.FLUENT}
         connect={orderedConnections.find((g) => g.getProviderInfo().name == 'Fluent')}
@@ -218,7 +216,7 @@ export const WalletSelector = () => {
 
       <WalletRow
         key="browser_wallet"
-        walletName="Other wallet"
+        walletName="Other-2"
         walletType={WalletType.BROWSER}
         // connect={orderedConnections.find((g) => g.getProviderInfo().name == 'Other')}
         url="/"

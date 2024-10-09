@@ -30,7 +30,7 @@ export function GetWalletType(value: string): WalletType {
     // case "ledger":return WalletType.LEDGER;
     case "OKX":return WalletType.OKX;
     case "fluent":return WalletType.FLUENT;
-    case "browser":return WalletType.BROWSER;
+    
   }
   return WalletType.INJECTED
 }

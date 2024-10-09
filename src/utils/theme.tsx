@@ -123,9 +123,8 @@ declare module '@mui/material/Button' {
 }
 
 export const getDesignTokens = (mode: 'light' | 'dark') => {
-  // const getColor = (lightColor: string, darkColor: string) =>
-  //   mode === 'dark' ? darkColor : lightColor;
-  const getColor = (lightColor: string, darkColor: string) =>  lightColor;
+  const getColor = (lightColor: string, darkColor: string) =>
+    mode === 'dark' ? darkColor : lightColor;
 
   return {
     breakpoints: {

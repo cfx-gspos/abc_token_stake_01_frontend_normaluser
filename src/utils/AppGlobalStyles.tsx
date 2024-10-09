@@ -19,33 +19,28 @@ type Mode = 'light' | 'dark';
  * @returns
  */
 export function AppGlobalStyles({ children }: { children: ReactNode }) {
-  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  // const [mode, setMode] = useState<Mode>(prefersDarkMode ? 'dark' : 'light');
-
-  const [mode, setMode] = useState<Mode>('light');
- 
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const [mode, setMode] = useState<Mode>(prefersDarkMode ? 'dark' : 'light');
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
-        // setMode((prevMode) => {
-        //   const newMode = prevMode === 'light' ? 'dark' : 'light';
-        //   localStorage.setItem('colorMode', newMode);
-        //   return newMode;
-        // });
-        return 'light'
+        setMode((prevMode) => {
+          const newMode = prevMode === 'light' ? 'dark' : 'light';
+          localStorage.setItem('colorMode', newMode);
+          return newMode;
+        });
       },
     }),
     []
   );
 
   useEffect(() => {
-   // const initialMode = localStorage?.getItem('colorMode') as Mode;
-    // if (initialMode) {
-    //   setMode(initialMode);
-    // } else if (prefersDarkMode) {
-    //   setMode('dark');
-    // }
- 
+    const initialMode = localStorage?.getItem('colorMode') as Mode;
+    if (initialMode) {
+      setMode(initialMode);
+    } else if (prefersDarkMode) {
+      setMode('dark');
+    }
   }, []);
 
   const theme = useMemo(() => {

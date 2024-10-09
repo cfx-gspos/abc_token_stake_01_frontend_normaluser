@@ -27,14 +27,13 @@ import { useTranslation } from 'react-i18next';
 
 
 export const UnStakeModal = () => {
-    const { t } = useTranslation();
+    const { t} = useTranslation();
 
     const { chainId: ethChainId, account: ethAccount, provider: ethProvider } = useWeb3React()
-    const { fluentWeb3Context, browserWeb3Context } = useWeb3Store()
+    const { fluentWeb3Context } = useWeb3Store()
     const app_connect_wallet = typeof window !== "undefined" && localStorage.getItem('app_connect_wallet');
-    const account = app_connect_wallet == 'fluent' ? fluentWeb3Context?.account : app_connect_wallet == 'browser' ? browserWeb3Context?.account : ethAccount
-    //const chainId = app_connect_wallet == 'fluent' ? fluentWeb3Context?.chainId : app_connect_wallet == 'browser' ? browserWeb3Context?.chainId : ethChainId
-
+    let account = app_connect_wallet == 'fluent' ? fluentWeb3Context?.account : ethAccount
+    // let chainId = app_connect_wallet == 'fluent' ? fluentWeb3Context?.chainId : ethChainId
 
 
     const { type, close } = useModalStore()
@@ -60,43 +59,9 @@ export const UnStakeModal = () => {
                     params: [transactionParameters],
                 });
 
-             //   console.log("交易哈希：", transactionHash);
+                console.log("交易哈希：", transactionHash);
 
                 await fluentWeb3Context?.provider.request({
-                    method: 'eth_getTransactionReceipt',
-                    params: [transactionHash],
-                });
-
-                toastInfo(true, 'UnStaked Successful')
-                close()
-
-                initData(account)
-
-            } catch (error) {
-                toastInfo(false, 'Cancel UnStaked')
-                console.log({
-                    name_g: 'error-----------------------',
-                    error
-                })
-            }
-        } else if (app_connect_wallet == 'browser') {
-            try {
-                const signer = new ethers.providers.Web3Provider(browserWeb3Context?.provider).getSigner();
-                const poolContract = new ethers.Contract(poolAddress, PoolABI, signer);
-
-                const transactionParameters = {
-                    from: account,
-                    to: poolAddress,
-                    data: poolContract.interface.encodeFunctionData('exit', [getPoolModal?.pool_id]),
-                };
-                const transactionHash = await browserWeb3Context?.provider.request({
-                    method: 'eth_sendTransaction',
-                    params: [transactionParameters],
-                });
-
-              //  console.log("交易哈希：", transactionHash);
-
-                await browserWeb3Context?.provider.request({
                     method: 'eth_getTransactionReceipt',
                     params: [transactionHash],
                 });
